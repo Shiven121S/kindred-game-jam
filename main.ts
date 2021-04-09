@@ -1,8 +1,15 @@
 scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile0`, function (sprite, location) {
-    game.over(false)
+    game.over(false, effects.dissolve)
 })
 scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile1`, function (sprite, location) {
-    game.over(false)
+    game.over(false, effects.dissolve)
+})
+scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile38`, function (sprite, location) {
+    color.FadeToWhite.startScreenEffect(500)
+    timer.after(524, function () {
+        color.startFade(color.White, color.originalPalette)
+        game.over(true, effects.starField)
+    })
 })
 controller.up.onEvent(ControllerButtonEvent.Pressed, function () {
     if (Game_Started) {
@@ -12,11 +19,13 @@ controller.up.onEvent(ControllerButtonEvent.Pressed, function () {
     }
 })
 scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile6`, function (sprite, location) {
-    game.over(false)
+    game.over(false, effects.dissolve)
 })
 scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile13`, function (sprite, location) {
     color.FadeToWhite.startScreenEffect(750)
     timer.after(850, function () {
+        tiles.setTilemap(tilemap`level5`)
+        tiles.placeOnTile(mySprite, tiles.getTileLocation(39, 2))
         color.startFade(color.White, color.originalPalette, 500)
     })
 })
@@ -28,7 +37,7 @@ controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
     }
 })
 scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile7`, function (sprite, location) {
-    game.over(false)
+    game.over(false, effects.dissolve)
 })
 scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile4`, function (sprite, location) {
     color.FadeToWhite.startScreenEffect(750)
@@ -39,16 +48,16 @@ scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile4`, function (sprite, l
     })
 })
 scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile3`, function (sprite, location) {
-    game.over(false)
+    game.over(false, effects.dissolve)
 })
 scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile8`, function (sprite, location) {
-    game.over(false)
+    game.over(false, effects.dissolve)
 })
 scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile2`, function (sprite, location) {
-    game.over(false)
+    game.over(false, effects.dissolve)
 })
 scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile5`, function (sprite, location) {
-    game.over(false)
+    game.over(false, effects.dissolve)
 })
 blockMenu.onMenuOptionSelected(function (option, index) {
     if (option == "How To Play") {
@@ -95,17 +104,17 @@ blockMenu.onMenuOptionSelected(function (option, index) {
                         . . . . . . . . . . . . . . . . 
                         . . . . . . . . . . . . . . . . 
                         . . . . . 9 9 9 9 9 9 . . . . . 
-                        . . . . 9 9 . . . . 9 9 . . . . 
-                        . . . . 9 . . . . . . 9 . . . . 
-                        . . . . 9 . . . . . . 9 . . . . 
-                        . . . . 9 . . . . . . 9 . . . . 
-                        . . . . 9 . . . . . . 9 . . . . 
-                        . . . . 9 . . . . . . 9 . . . . 
-                        . . . . 9 . . . . . . 9 . . . . 
-                        . . . . 9 . . . . . . 9 . . . . 
-                        . . . . 9 . . . . . . 9 . . . . 
-                        . . . . 9 . . . . . . 9 . . . . 
-                        . . . . 9 9 . . . . 9 9 . . . . 
+                        . . . . 9 9 f f f f 9 9 . . . . 
+                        . . . . 9 f f f f f f 9 . . . . 
+                        . . . . 9 f f f f f f 9 . . . . 
+                        . . . . 9 f f f f f f 9 . . . . 
+                        . . . . 9 f f f f f f 9 . . . . 
+                        . . . . 9 f f f f f f 9 . . . . 
+                        . . . . 9 f f f f f f 9 . . . . 
+                        . . . . 9 f f f f f f 9 . . . . 
+                        . . . . 9 f f f f f f 9 . . . . 
+                        . . . . 9 f f f f f f 9 . . . . 
+                        . . . . 9 9 f f f f 9 9 . . . . 
                         . . . . . 9 9 9 9 9 9 . . . . . 
                         `, SpriteKind.Player)
                     controller.moveSprite(mySprite, 65, 0)
@@ -163,12 +172,12 @@ game.onUpdate(function () {
                 . . . . . . . . . . . . . . . . 
                 . . . . . . . . . . . . . . . . 
                 . . . . . 9 9 9 9 9 9 . . . . . 
-                . . . . 9 9 . . . . 9 9 . . . . 
-                . . . . 9 . . . . . . 9 . . . . 
-                . . . . 9 . . . . . . 9 . . . . 
-                . . . . 9 . . . . . . 9 . . . . 
-                . . . . 9 . . . . . . 9 . . . . 
-                . . . . 9 9 . . . . 9 9 . . . . 
+                . . . . 9 9 f f f f 9 9 . . . . 
+                . . . . 9 f f f f f f 9 . . . . 
+                . . . . 9 f f f f f f 9 . . . . 
+                . . . . 9 f f f f f f 9 . . . . 
+                . . . . 9 f f f f f f 9 . . . . 
+                . . . . 9 9 f f f f 9 9 . . . . 
                 . . . . . 9 9 9 9 9 9 . . . . . 
                 `)
             controller.moveSprite(mySprite, 45, 0)
@@ -184,17 +193,17 @@ game.onUpdate(function () {
                 . . . . . . . . . . . . . . . . 
                 . . . . . . . . . . . . . . . . 
                 . . . . . 9 9 9 9 9 9 . . . . . 
-                . . . . 9 9 . . . . 9 9 . . . . 
-                . . . . 9 . . . . . . 9 . . . . 
-                . . . . 9 . . . . . . 9 . . . . 
-                . . . . 9 . . . . . . 9 . . . . 
-                . . . . 9 . . . . . . 9 . . . . 
-                . . . . 9 . . . . . . 9 . . . . 
-                . . . . 9 . . . . . . 9 . . . . 
-                . . . . 9 . . . . . . 9 . . . . 
-                . . . . 9 . . . . . . 9 . . . . 
-                . . . . 9 . . . . . . 9 . . . . 
-                . . . . 9 9 . . . . 9 9 . . . . 
+                . . . . 9 9 f f f f 9 9 . . . . 
+                . . . . 9 f f f f f f 9 . . . . 
+                . . . . 9 f f f f f f 9 . . . . 
+                . . . . 9 f f f f f f 9 . . . . 
+                . . . . 9 f f f f f f 9 . . . . 
+                . . . . 9 f f f f f f 9 . . . . 
+                . . . . 9 f f f f f f 9 . . . . 
+                . . . . 9 f f f f f f 9 . . . . 
+                . . . . 9 f f f f f f 9 . . . . 
+                . . . . 9 f f f f f f 9 . . . . 
+                . . . . 9 9 f f f f 9 9 . . . . 
                 . . . . . 9 9 9 9 9 9 . . . . . 
                 `)
             controller.moveSprite(mySprite, 65, 0)
