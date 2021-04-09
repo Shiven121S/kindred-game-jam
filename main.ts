@@ -4,18 +4,39 @@ scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile0`, function (sprite, l
 scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile1`, function (sprite, location) {
     game.over(false)
 })
+controller.up.onEvent(ControllerButtonEvent.Pressed, function () {
+    if (Game_Started) {
+        if (mySprite.vy == 0) {
+            mySprite.vy = -150
+        }
+    }
+})
 scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile6`, function (sprite, location) {
     game.over(false)
+})
+scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile13`, function (sprite, location) {
+    color.FadeToWhite.startScreenEffect(750)
+    timer.after(850, function () {
+        color.startFade(color.White, color.originalPalette, 500)
+    })
 })
 controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
     if (Game_Started) {
         if (mySprite.vy == 0) {
-            mySprite.vy = -200
+            mySprite.vy = -150
         }
     }
 })
 scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile7`, function (sprite, location) {
     game.over(false)
+})
+scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile4`, function (sprite, location) {
+    color.FadeToWhite.startScreenEffect(750)
+    timer.after(850, function () {
+        color.startFade(color.White, color.originalPalette, 500)
+        tiles.setTilemap(tilemap`level2`)
+        tiles.placeOnTile(mySprite, tiles.getTileLocation(39, 2))
+    })
 })
 scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile3`, function (sprite, location) {
     game.over(false)
@@ -57,17 +78,17 @@ blockMenu.onMenuOptionSelected(function (option, index) {
             888888888888888888888888
             888888888888888888888888
             `)
-        game.showLongText("Move left and right with A/D or the LEFT and RIGHT ARROW keys. Jump with Space or the UP ARROW. Try to escape the oncoming wave of red anti-matter.", DialogLayout.Center)
+        game.showLongText("Move left and right with A/D or the LEFT and RIGHT ARROW keys. Jump with Space or the UP ARROW. Hold down D or DOWN ARROW key to crouch. Try to avoid the anti-matter platforms.", DialogLayout.Center)
     } else if (option == "Play") {
-        color.FadeToWhite.startScreenEffect(2000)
+        color.FadeToWhite.startScreenEffect(1000)
         timer.after(3500, function () {
             textSprite.destroy()
             textSprite_2.destroy()
             blockMenu.setControlsEnabled(false)
             blockMenu.closeMenu()
-            color.startFade(color.White, color.originalPalette, 1000)
+            color.startFade(color.White, color.originalPalette, 600)
             timer.after(1010, function () {
-                game.showLongText("At the very beginning, there was nothing. The world was a dark void devoid of any life or matter. 'Till the big bang occurred. A giant explosion, spewing out matter and anti-matter. You, the player are the first bit of matter to ever exist. Within a googolplex of a second of your creation, you have developed sentience. You look upon The world in front of you and see two approaching waves. A wave of matter, and one of anti-matter. Contact with the wave of anti-matter, will annihilate you. Fortunately the wave of antimatter, can only reach a certain distance, so you can escape it. The wave of matter is forming platforms, that you can use to escape the antimatter wave. Unfortunatly, there are also platforms of red antimatter, ", DialogLayout.Center)
+                game.showLongText("You are an test subject, forced to travel to alternate dimensions. You have entered dimension #384041, one of the few dimensions which has just experienced the big bang. At its beginning there is nothing, a near empty void of red anti-matter and some white regular matter. As soon as you enter the dimension, your portal fragments, stranding you. You must travel to the center of the big bang to be able to return to your dimension.", DialogLayout.Center)
                 timer.after(10, function () {
                     mySprite = sprites.create(img`
                         . . . . . . . . . . . . . . . . 
@@ -98,9 +119,17 @@ blockMenu.onMenuOptionSelected(function (option, index) {
         })
     }
 })
+scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile14`, function (sprite, location) {
+    color.FadeToWhite.startScreenEffect(750)
+    timer.after(850, function () {
+        color.startFade(color.White, color.originalPalette, 500)
+        tiles.setTilemap(tilemap`level4`)
+        tiles.placeOnTile(mySprite, tiles.getTileLocation(39, 2))
+    })
+})
 let mySprite: Sprite = null
-let textSprite_2: Sprite = null
-let textSprite: Sprite = null
+let textSprite_2: TextSprite = null
+let textSprite: TextSprite = null
 let Game_Started = false
 Game_Started = false
 blockMenu.showMenu(["Play", "How To Play"], MenuStyle.List, MenuLocation.BottomHalf)
@@ -121,3 +150,55 @@ animation.animationPresets(animation.bobbing),
 2000,
 true
 )
+game.onUpdate(function () {
+    if (controller.down.isPressed()) {
+        if (Game_Started) {
+            mySprite.setImage(img`
+                . . . . . . . . . . . . . . . . 
+                . . . . . . . . . . . . . . . . 
+                . . . . . . . . . . . . . . . . 
+                . . . . . . . . . . . . . . . . 
+                . . . . . . . . . . . . . . . . 
+                . . . . . . . . . . . . . . . . 
+                . . . . . . . . . . . . . . . . 
+                . . . . . . . . . . . . . . . . 
+                . . . . . 9 9 9 9 9 9 . . . . . 
+                . . . . 9 9 . . . . 9 9 . . . . 
+                . . . . 9 . . . . . . 9 . . . . 
+                . . . . 9 . . . . . . 9 . . . . 
+                . . . . 9 . . . . . . 9 . . . . 
+                . . . . 9 . . . . . . 9 . . . . 
+                . . . . 9 9 . . . . 9 9 . . . . 
+                . . . . . 9 9 9 9 9 9 . . . . . 
+                `)
+            controller.moveSprite(mySprite, 45, 0)
+            mySprite.ay = 220
+        }
+    }
+})
+game.onUpdate(function () {
+    if (!(controller.down.isPressed())) {
+        if (Game_Started) {
+            mySprite.setImage(img`
+                . . . . . . . . . . . . . . . . 
+                . . . . . . . . . . . . . . . . 
+                . . . . . . . . . . . . . . . . 
+                . . . . . 9 9 9 9 9 9 . . . . . 
+                . . . . 9 9 . . . . 9 9 . . . . 
+                . . . . 9 . . . . . . 9 . . . . 
+                . . . . 9 . . . . . . 9 . . . . 
+                . . . . 9 . . . . . . 9 . . . . 
+                . . . . 9 . . . . . . 9 . . . . 
+                . . . . 9 . . . . . . 9 . . . . 
+                . . . . 9 . . . . . . 9 . . . . 
+                . . . . 9 . . . . . . 9 . . . . 
+                . . . . 9 . . . . . . 9 . . . . 
+                . . . . 9 . . . . . . 9 . . . . 
+                . . . . 9 9 . . . . 9 9 . . . . 
+                . . . . . 9 9 9 9 9 9 . . . . . 
+                `)
+            controller.moveSprite(mySprite, 65, 0)
+            mySprite.ay = 150
+        }
+    }
+})
