@@ -5,10 +5,22 @@ scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile1`, function (sprite, l
     game.over(false, effects.dissolve)
 })
 scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile38`, function (sprite, location) {
-    color.FadeToWhite.startScreenEffect(500)
-    timer.after(524, function () {
-        color.startFade(color.White, color.originalPalette)
+    color.FadeToWhite.startScreenEffect(1000)
+    timer.after(1500, function () {
+        color.startFade(color.White, color.originalPalette, 500)
+        tiles.setTileAt(tiles.getTileLocation(0, 0), assets.tile`myTile30`)
+        music.setVolume(0)
         game.over(true, effects.starField)
+        timer.after(300, function () {
+            music.setVolume(20)
+            music.playTone(392, music.beat(BeatFraction.Half))
+            timer.background(function () {
+                music.playTone(311, music.beat(BeatFraction.Half))
+            })
+            timer.background(function () {
+                music.playTone(262, music.beat(BeatFraction.Half))
+            })
+        })
     })
 })
 controller.up.onEvent(ControllerButtonEvent.Pressed, function () {
@@ -137,9 +149,10 @@ scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile14`, function (sprite, 
     })
 })
 let mySprite: Sprite = null
-let textSprite_2: TextSprite = null
-let textSprite: TextSprite = null
+let textSprite_2: Sprite = null
+let textSprite: Sprite = null
 let Game_Started = false
+let Music_Playing = false
 Game_Started = false
 blockMenu.showMenu(["Play", "How To Play"], MenuStyle.List, MenuLocation.BottomHalf)
 blockMenu.setColors(1, 15)
@@ -159,6 +172,28 @@ animation.animationPresets(animation.bobbing),
 2000,
 true
 )
+game.onUpdate(function () {
+    if (Game_Started) {
+        if (!(Music_Playing)) {
+            timer.background(function () {
+                Music_Playing = true
+                music.playTone(392, music.beat(BeatFraction.Half))
+                music.playTone(311, music.beat(BeatFraction.Half))
+                music.playTone(262, music.beat(BeatFraction.Half))
+                music.playTone(311, music.beat(BeatFraction.Half))
+                music.playTone(262, music.beat(BeatFraction.Half))
+                music.playTone(392, music.beat(BeatFraction.Half))
+                music.playTone(262, music.beat(BeatFraction.Half))
+                music.playTone(392, music.beat(BeatFraction.Half))
+                music.playTone(311, music.beat(BeatFraction.Half))
+                music.playTone(392, music.beat(BeatFraction.Half))
+                music.playTone(262, music.beat(BeatFraction.Half))
+                music.playTone(311, music.beat(BeatFraction.Half))
+                Music_Playing = false
+            })
+        }
+    }
+})
 game.onUpdate(function () {
     if (controller.down.isPressed()) {
         if (Game_Started) {
